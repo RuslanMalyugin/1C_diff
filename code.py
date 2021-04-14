@@ -10,14 +10,12 @@ reset2 - восстановление после посимвольного ср
 old_file_name = input("Введите название старого файла: ")
 new_file_name = input("Введите название нового файла: ")
 diff_file_name = input("Введите название файла для записи изменений: ")
-old_file = open(old_file_name, 'r')
-
-old_file_string = np.array([0])
-for line in old_file:
-    old_file_string = np.append(old_file_string, line)
-
 
 if mode == 'diff2':
+    old_file = open(old_file_name, 'r')
+    old_file_string = np.array([0])
+    for line in old_file:
+        old_file_string = np.append(old_file_string, line)
     new_file = open(new_file_name, 'r')
     diff_file = open(diff_file_name, 'w')
     diff_file.write("Differences:\n")
@@ -55,6 +53,7 @@ if mode == 'diff2':
 
         tmp_str += '\n'
         diff_file.write(tmp_str)
+    print("Разница успешна найдена!")
 
 
 if mode == 'reset2':
@@ -65,19 +64,23 @@ if mode == 'reset2':
         diff_file_string = np.append(diff_file_string, line)
     for i in range(int(len(diff_file_string) / 2)):
         new_file.write(diff_file_string[2 * i + 1])
+    print("Восстановлено!")
 
 
 
 if mode == 'diff1':
+    old_file = open(old_file_name, 'r')
+    old_file_string = np.array([0])
+    new_file_string = np.array([0])
     old_file_string_hashes = np.array([0])
     new_file = open(new_file_name, 'r')
     diff_file = open(diff_file_name, 'w')
-
     new_file_string_hashes = np.array([0])
 
-    new_file_string = np.array([0])
     for line in old_file:
+        old_file_string = np.append(old_file_string, line)
         old_file_string_hashes = np.append(old_file_string_hashes, hash(line))
+
 
     for line in new_file:
         new_file_string = np.append(new_file_string, line)
@@ -101,15 +104,19 @@ if mode == 'diff1':
 
 
 if mode == 'reset1':
+    old_file = open(old_file_name, 'r')
     new_file = open(new_file_name, 'w')
     diff_file = open(diff_file_name, 'r')
+    old_file_string = np.array([0])
+    for line in old_file:
+        old_file_string = np.append(old_file_string, line)
     diff_file_string = np.array([])
     for line in diff_file:
         diff_file_string = np.append(diff_file_string, line)
     for i in range(1, len(diff_file_string)):
-        number = diff_file_string[i].split()[0]
+        number = diff_file_string[i].split(' ')[1]
         if number.isnumeric():
             new_file.write(old_file_string[int(number)])
         else:
-            (new_file.write(diff_file_string[i][12:]))
+            new_file.write(diff_file_string[i][12:])
     print("Восстановлено!")
