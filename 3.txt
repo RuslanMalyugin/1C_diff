@@ -1,0 +1,8 @@
+Differences:
+% 4 th_str % a
+% 2 th_str % hello
+% 3 th_str % 
+% new_str % 
+% new_str % abc
+% new_str % q
+% 5 th_str % qwerty
